@@ -14,7 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Spinner;
+i
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -28,11 +28,9 @@ import java.util.List;
 
 import rs.aleph.android.example13.R;
 import rs.aleph.android.example13.activities.db.DatabaseHelper;
-import rs.aleph.android.example13.activities.db.model.Film;
 import rs.aleph.android.example13.activities.db.model.Glumac;
 import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 
-import static android.os.Build.VERSION_CODES.M;
 
 
 public class FirstActivity extends AppCompatActivity {
