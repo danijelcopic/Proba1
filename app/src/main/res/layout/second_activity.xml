@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginBottom="@dimen/activity_hotizontal_margin"
+    android:layout_marginLeft="@dimen/activity_vertical_margin"
+    android:layout_marginRight="@dimen/activity_vertical_margin"
+    android:layout_marginTop="@dimen/activity_hotizontal_margin">
+
+
+    <!-- AppBarLayot -->
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <!-- Standard toolbar-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/second_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:title="@string/activity_first_toolbar_title"
+            app:layout_scrollFlags="scroll|enterAlways" />
+    </android.support.design.widget.AppBarLayout>
+
+
+    <!-- ime glumca -->
+    <TextView
+        android:id="@+id/imeGlumac"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center|bottom"
+        android:textColor="@android:color/background_dark"
+        android:textSize="20sp" />
+
+
+    <!-- input datum rodjenja glumca -->
+    <TextView
+        android:id="@+id/inputDatumRodjenjaGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imeGlumac"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10sp"
+        android:textSize="11sp"
+        android:textStyle="italic" />
+
+
+    <!-- label biografija glumca -->
+    <TextView
+        android:id="@+id/labelBiografijaGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/imeGlumac"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="12sp"
+        android:textColor="#000000"
+        android:text="@string/biografija"
+        android:textSize="12sp" />
+
+    <!-- input biografija glumac -->
+    <TextView
+        android:id="@+id/inputBiografijaGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelBiografijaGlumac"
+        android:layout_centerHorizontal="true"
+        android:textSize="10sp" />
+
+
+    <!-- label ocena glumca -->
+    <TextView
+        android:id="@+id/labelOcenaGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputBiografijaGlumac"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4sp"
+        android:text="@string/ocena"
+        android:textColor="#000000"
+        android:textSize="12sp" />
+
+
+    <!-- ocena glumca  -->
+    <TextView
+        android:id="@+id/inputOcenaGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/labelOcenaGlumac"
+        android:layout_centerHorizontal="true"
+        android:textSize="24sp"
+        android:textStyle="italic" />
+
+
+    <!--  filmovi -->
+    <TextView
+        android:id="@+id/labelFilmoviGlumac"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputOcenaGlumac"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14sp"
+        android:textColor="#000000"
+        android:text="@string/filmovi"
+        android:textSize="12sp" />
+
+
+    <!-- lista filmova -->
+    <ListView
+        android:id="@+id/inputListaFilmovaGlumac"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/labelFilmoviGlumac" />
+
+
+
+</RelativeLayout>
