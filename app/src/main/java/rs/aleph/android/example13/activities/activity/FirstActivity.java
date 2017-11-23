@@ -32,7 +32,7 @@ import rs.aleph.android.example13.activities.db.model.Film;
 import rs.aleph.android.example13.activities.db.model.Glumac;
 import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 
-
+import static android.os.Build.VERSION_CODES.M;
 
 
 public class FirstActivity extends AppCompatActivity {
@@ -54,7 +54,38 @@ public class FirstActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        //  ZA BAZU
+        // ucitamo sve podatke iz baze u listu
+        List<Glumac> glumci = new ArrayList<Glumac>();
+        try {
+            glumci = getDatabaseHelper().getGlumacDao().queryForAll();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
+        List<String> glumciIme = new ArrayList<String>();
+        for (Glumac tmp:glumci) {
+            glumciIme.add(tmp.getGlumacIme());
+        }
+        final ListView listView = (ListView)findViewById(R.id.listFirstActivity);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item, glumciIme);
+        listView.setAdapter(adapter);
+
+
+        // sta se desi kada kliknemo na stvar iz iste
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Glumac glumac = (Glumac)listView.getItemAtPosition(position);
+                int identifikator = glumac.getGlumacId();
+                Intent intentGLumac = new Intent(FirstActivity.this, SecondActivity.class);
+                intentGLumac.putExtra("identifikator",(int)identifikator);
+                startActivity(intentGLumac);
+            }
+        });
 
     }
 
@@ -82,24 +113,11 @@ public class FirstActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.dialog_glumac);
 
 
-               // ucitamo sve podatke iz baze u listu
-                List<Glumac> glumci = new ArrayList<Glumac>();
-                try {
-                    glumci = getDatabaseHelper().getGlumacDao().queryForAll();
-
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
 
 
-                // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
-                List<String> glumciIme = new ArrayList<String>();
-                for (Glumac tmp:glumci) {
-                    glumciIme.add(tmp.getGlumacIme());
-                }
-                final ListView listView = (ListView)findViewById(R.id.listFirstActivity);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item, glumciIme);
-                listView.setAdapter(adapter);
+
+
+
 
 
 
