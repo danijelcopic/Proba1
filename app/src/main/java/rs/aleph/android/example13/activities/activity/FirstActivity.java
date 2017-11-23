@@ -82,6 +82,7 @@ public class FirstActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.dialog_glumac);
 
 
+               // ucitamo sve podatke iz baze u listu
                 List<Glumac> glumci = new ArrayList<Glumac>();
                 try {
                     glumci = getDatabaseHelper().getGlumacDao().queryForAll();
@@ -90,19 +91,15 @@ public class FirstActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                List<String> actors = new ArrayList<String>();
-                for (Glumac g:glumci) {
-                    actors.add(g.getGlumacIme());
+
+                // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
+                List<String> glumciIme = new ArrayList<String>();
+                for (Glumac tmp:glumci) {
+                    glumciIme.add(tmp.getGlumacIme());
                 }
                 final ListView listView = (ListView)findViewById(R.id.listFirstActivity);
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item,actors);
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item, glumciIme);
                 listView.setAdapter(adapter);
-
-
-
-
-
-
 
 
 
@@ -136,7 +133,7 @@ public class FirstActivity extends AppCompatActivity {
                             return;
                         }
 
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd.mm.yyyy.");
+                        SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
                         Date datum = null;
                         try {
                             datum = sdf.parse(glumacDatumRodjenja.getText().toString());
@@ -158,10 +155,6 @@ public class FirstActivity extends AppCompatActivity {
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
-
-
-
-
 
                        dialog.dismiss();
 
