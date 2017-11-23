@@ -48,7 +48,15 @@ public class FirstActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_activity);
 
-     }
+        // TOOLBAR
+        // aktiviranje toolbara
+        Toolbar toolbar = (Toolbar) findViewById(R.id.first_toolbar);
+        setSupportActionBar(toolbar);
+
+
+
+
+    }
 
 
     /**
@@ -89,6 +97,13 @@ public class FirstActivity extends AppCompatActivity {
                 final ListView listView = (ListView)findViewById(R.id.listFirstActivity);
                 ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item,actors);
                 listView.setAdapter(adapter);
+
+
+
+
+
+
+
 
 
                 final EditText glumacIme = (EditText) dialog.findViewById(R.id.glumac_ime);
@@ -185,6 +200,10 @@ public class FirstActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
 
 
