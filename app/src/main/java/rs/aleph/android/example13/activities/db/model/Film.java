@@ -32,7 +32,7 @@ public class Film {
     @DatabaseField(columnName = POLJE_GODINA_IZLASKA)
     private int filmGodinaIzlaska;
 
-    @DatabaseField(columnName = POLJE_GLUMAC, foreign = true,foreignAutoRefresh = true)
+    @DatabaseField(columnName = Film.POLJE_GLUMAC, foreign = true,foreignAutoRefresh = true)
     private Glumac glumac;
 
 

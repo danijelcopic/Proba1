@@ -50,7 +50,6 @@ import static rs.aleph.android.example13.R.string.biografija;
 public class SecondActivity extends AppCompatActivity {
 
     private int position = 0;
-    private static int NOTIFICATION_ID = 1;
 
     private DatabaseHelper databaseHelper;
     private Glumac glumac;
@@ -66,6 +65,15 @@ public class SecondActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
+        // prikazivanje strelice u nazad u toolbaru ... mora se u manifestu definisati zavisnost parentActivityName
+        final android.support.v7.app.ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+            actionBar.show();
+        }
+
+
         // hvatamo intent iz prve aktivnosti
         Intent intent = getIntent();
         position = intent.getExtras().getInt("position");
@@ -73,7 +81,7 @@ public class SecondActivity extends AppCompatActivity {
         // na osnovu dobijene pozicije od intenta, pupunjavamo polja u drugoj aktivnosti
         try {
 
-            glumac = getDatabaseHelper().getGlumacDao().queryForId((int)position);
+            glumac = getDatabaseHelper().getGlumacDao().queryForId((int) position);
             String ime = glumac.getGlumacIme();
             String biografija = glumac.getGlumacBiografija();
             double ocena = glumac.getGlumacOcena();
@@ -82,23 +90,23 @@ public class SecondActivity extends AppCompatActivity {
             String datum = sdf.format(glumac.getGlumacDatumRodjenja());
 
             //ispisujemo ime glumca
-            TextView imeGlumac  = (TextView)findViewById(R.id.imeGlumac);
+            TextView imeGlumac = (TextView) findViewById(R.id.imeGlumac);
             imeGlumac.setText(ime);
 
             //ispisujemo  datum rodjenja glumca
-            TextView datumGlumac  = (TextView)findViewById(R.id.inputDatumRodjenjaGlumac);
+            TextView datumGlumac = (TextView) findViewById(R.id.inputDatumRodjenjaGlumac);
             datumGlumac.setText(datum);
 
             //ispisujemo  biografiju glumca
-            TextView biografijaGlumac = (TextView)findViewById(R.id.inputBiografijaGlumac);
+            TextView biografijaGlumac = (TextView) findViewById(R.id.inputBiografijaGlumac);
             biografijaGlumac.setText(biografija);
 
             //ispisujemo  ocenu glumca
-            TextView ocenaGlumac = (TextView)findViewById(R.id.inputOcenaGlumac);
+            TextView ocenaGlumac = (TextView) findViewById(R.id.inputOcenaGlumac);
             ocenaGlumac.setText(stringOcena);
 
 
-            ListView listView = (ListView)findViewById(R.id.inputListaFilmovaGlumac);
+            ListView listView = (ListView) findViewById(R.id.inputListaFilmovaGlumac);
             List<Film> filmovi = getDatabaseHelper().getFilmDao().
                     queryBuilder().
                     where().
@@ -116,9 +124,6 @@ public class SecondActivity extends AppCompatActivity {
         }
 
 
-
-
-
     }
 
 
@@ -134,12 +139,31 @@ public class SecondActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+
             case R.id.action_edit:
-                // sta se desi kada pritisnemo edit
+
+                // sta se radi kada je pritisnita ikonica edit ...
+
                 break;
+
+            // kada pritisnemo ikonicu za brisanje
             case R.id.action_delete:
-                // sta se desi kada pritisnemo delete
+                try {
+                    getDatabaseHelper().getGlumacDao().delete(glumac);
+
+                    // prikazati poruku da je obrisan u odnosu na podesavanja
+
+                    refresh();
+
+                    finish();
+
+
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
                 break;
+
+            // kada pritisnemo ikonicu za dodavanje filma
             case R.id.action_add_film:
 
                 final Dialog dialog = new Dialog(SecondActivity.this);
@@ -177,17 +201,17 @@ public class SecondActivity extends AppCompatActivity {
                         }
 
 
-
                         Film film = new Film();
                         film.setFilmNaziv(naziv);
                         film.setFilmZanr(zanr);
                         film.setFilmGodinaIzlaska(godina);
 
 
-
                         try {
                             getDatabaseHelper().getFilmDao().create(film);
+
                             refresh();
+
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -214,11 +238,6 @@ public class SecondActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
-
     //Metoda koja komunicira sa bazom podataka
     public DatabaseHelper getDatabaseHelper() {
         if (databaseHelper == null) {
@@ -228,7 +247,6 @@ public class SecondActivity extends AppCompatActivity {
     }
 
 
-
     // refresh() prikazuje novi sadrzaj.Povucemo nov sadrzaj iz baze i popunimo listu filmova
     private void refresh() {
         ListView listview = (ListView) findViewById(R.id.inputListaFilmovaGlumac);
@@ -236,16 +254,41 @@ public class SecondActivity extends AppCompatActivity {
             ArrayAdapter<Film> adapter = (ArrayAdapter<Film>) listview.getAdapter();
             if (adapter != null) {
                 adapter.clear();
+                List<Film> list = new ArrayList<Film>();
                 try {
-                    List<Film> list = getDatabaseHelper().getFilmDao().queryForAll();
-                    adapter.addAll(list);
-                    adapter.notifyDataSetChanged();
+                    list = getDatabaseHelper().getFilmDao().queryForAll();
                 } catch (SQLException e) {
                     e.printStackTrace();
-
                 }
+
+
+                // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
+                List<String> filmIme = new ArrayList<String>();
+                for (Film tmp : list) {
+                    filmIme.add(tmp.getFilmNaziv());
+                }
+                adapter.addAll();
+                adapter.notifyDataSetChanged();
             }
         }
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+//                try {
+//            getDatabaseHelper().getFilmDao().queryForAll();
+//
+//
+//            refresh();
+//
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//        }
+
+        //refresh();
     }
 
 

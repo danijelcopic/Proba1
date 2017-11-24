@@ -24,6 +24,7 @@
 
         <activity
             android:name="rs.aleph.android.example13.activities.activity.SecondActivity"
+            android:parentActivityName="rs.aleph.android.example13.activities.activity.FirstActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:icon="@mipmap/ic_launcher">
         </activity>

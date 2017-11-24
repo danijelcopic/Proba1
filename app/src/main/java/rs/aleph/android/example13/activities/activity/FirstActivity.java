@@ -37,15 +37,12 @@ import rs.aleph.android.example13.activities.db.model.Glumac;
 import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 
 
-
 public class FirstActivity extends AppCompatActivity {
 
 
+    private static int NOTIFICATION_ID = 1;
     private DatabaseHelper databaseHelper;
     private AlertDialog dialogAlert;
-    private static int NOTIFICATION_ID = 1;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +71,7 @@ public class FirstActivity extends AppCompatActivity {
             glumciIme.add(i.getGlumacIme());
         }
 
-        final ListView listView = (ListView)findViewById(R.id.listFirstActivity); // definisemo u koji View saljemo podatke (listFirstActivity)
+        final ListView listView = (ListView) findViewById(R.id.listFirstActivity); // definisemo u koji View saljemo podatke (listFirstActivity)
         ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this, R.layout.list_item, glumciIme);  // definisemo kako ce izgledati jedna stavka u View (list_item)
         listView.setAdapter(adapter);
 
@@ -110,11 +107,6 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        /**
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);  // setujemo SharedPreferences
-        final boolean toast = sharedPreferences.getBoolean("@string/pref_toast",true);
-        final boolean notification = sharedPreferences.getBoolean("@string/pref_notification",true);
-         */
 
         switch (item.getItemId()) {
 
@@ -217,10 +209,6 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
     /**
      * TABELE I BAZA
      */
@@ -254,7 +242,6 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-
     public void showMessage(String text, String newGlumac) {
         SharedPreferences st = PreferenceManager.getDefaultSharedPreferences(FirstActivity.this);
         String name = st.getString("message", "Toast");
@@ -282,6 +269,12 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
+    // ovde refreshujemo bazu kada smo se vratili iz druge aktivnosti (kada je glumac obrisan, pa da se vise ne pokazuje)
+    @Override
+    protected void onResume() {
+        super.onResume();
+        refresh();
+    }
 
     @Override
     protected void onDestroy() {

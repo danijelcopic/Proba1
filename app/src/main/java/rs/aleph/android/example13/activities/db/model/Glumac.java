@@ -40,7 +40,7 @@ public class Glumac {
     @DatabaseField(columnName = POLJE_RODJENJE)
     private Date glumacDatumRodjenja;
 
-    @ForeignCollectionField(columnName = POLJE_FILM, eager = true)
+    @ForeignCollectionField(columnName = Glumac.POLJE_FILM, eager = true)
     private ForeignCollection<Film> film;
 
     public Glumac() {
