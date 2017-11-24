@@ -1,10 +1,16 @@
 package rs.aleph.android.example13.activities.activity;
 
 import android.app.Dialog;
+import android.app.ListActivity;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,7 +20,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-i
 import android.widget.Toast;
 
 import com.j256.ormlite.android.apptools.OpenHelperManager;
@@ -38,6 +43,7 @@ public class FirstActivity extends AppCompatActivity {
 
     private DatabaseHelper databaseHelper;
     private AlertDialog dialogAlert;
+    private static int NOTIFICATION_ID = 1;
 
 
 
@@ -57,7 +63,6 @@ public class FirstActivity extends AppCompatActivity {
         List<Glumac> glumci = new ArrayList<Glumac>();
         try {
             glumci = getDatabaseHelper().getGlumacDao().queryForAll();
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,24 +70,26 @@ public class FirstActivity extends AppCompatActivity {
 
         // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
         List<String> glumciIme = new ArrayList<String>();
-        for (Glumac tmp:glumci) {
-            glumciIme.add(tmp.getGlumacIme());
+        for (Glumac i : glumci) {
+            glumciIme.add(i.getGlumacIme());
         }
-        final ListView listView = (ListView)findViewById(R.id.listFirstActivity);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this,R.layout.list_item, glumciIme);
+
+        final ListView listView = (ListView)findViewById(R.id.listFirstActivity); // definisemo u koji View saljemo podatke (listFirstActivity)
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this, R.layout.list_item, glumciIme);  // definisemo kako ce izgledati jedna stavka u View (list_item)
         listView.setAdapter(adapter);
 
 
-        // sta se desi kada kliknemo na stvar iz iste
+        // sta se desi kada kliknemo na, u ovom slucaju, ime glumca iz liste
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Glumac glumac = (Glumac)listView.getItemAtPosition(position);
-                int identifikator = glumac.getGlumacId();
+                Glumac glumac = (Glumac) listView.getItemAtPosition(position);
                 Intent intentGLumac = new Intent(FirstActivity.this, SecondActivity.class);
-                intentGLumac.putExtra("identifikator",(int)identifikator);
+                intentGLumac.putExtra("position", glumac.getGlumacId());  // saljemo intent o poziciji (id glumca)
                 startActivity(intentGLumac);
+
             }
+
         });
 
     }
@@ -102,21 +109,20 @@ public class FirstActivity extends AppCompatActivity {
     // sta se desi kada kliknemo na stavke iz menija
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        /**
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);  // setujemo SharedPreferences
+        final boolean toast = sharedPreferences.getBoolean("@string/pref_toast",true);
+        final boolean notification = sharedPreferences.getBoolean("@string/pref_notification",true);
+         */
+
         switch (item.getItemId()) {
 
             case R.id.action_add: // otvara se dialog za upis u bazu
 
 
-                final Dialog dialog = new Dialog(FirstActivity.this);
+                final Dialog dialog = new Dialog(FirstActivity.this); // aktiviramo dijalog
                 dialog.setContentView(R.layout.dialog_glumac);
-
-
-
-
-
-
-
-
 
 
                 final EditText glumacIme = (EditText) dialog.findViewById(R.id.glumac_ime);
@@ -172,7 +178,7 @@ public class FirstActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                       dialog.dismiss();
+                        dialog.dismiss();
 
                     }
                 });
@@ -215,10 +221,6 @@ public class FirstActivity extends AppCompatActivity {
 
 
 
-
-
-
-
     /**
      * TABELE I BAZA
      */
@@ -251,6 +253,26 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
+
+
+    public void showMessage(String text, String newGlumac) {
+        SharedPreferences st = PreferenceManager.getDefaultSharedPreferences(FirstActivity.this);
+        String name = st.getString("message", "Toast");
+        if (name.equals("Toast")) {
+            Toast.makeText(FirstActivity.this, text + "\n" + newGlumac, Toast.LENGTH_LONG).show();
+        } else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(FirstActivity.this);
+            builder.setSmallIcon(R.drawable.ic_action_name);
+
+            builder.setContentTitle(text);
+            builder.setContentText(newGlumac);
+
+
+            // Shows notification with the notification manager (notification ID is used to update the notification later on)
+            NotificationManager manager = (NotificationManager) FirstActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
+            manager.notify(1, builder.build());
+        }
+    }
 
 
     // kompatibilnost u nazad
