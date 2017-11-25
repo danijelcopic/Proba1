@@ -4,6 +4,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/action_picture"
+        android:title="@string/first_action_picture"
+        android:icon="@drawable/ic_action_picture"
+        app:showAsAction="always" />
+
+
+    <item
         android:id="@+id/action_edit"
         android:title="@string/first_action_edit"
         android:icon="@drawable/ic_action_edit"

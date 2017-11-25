@@ -24,7 +24,13 @@
     <string name="pref_notification">pref_notification</string>
     <string name="pref_notification_title">Allow Notification</string>
     <string name="pref_notification_summary">Notifikacije pomocu Notification Manager-a</string>
+    <string name="first_action_picture">Picture</string>
 
+    <string name="pref_sync">pref_sync</string>
+    <string name="pref_sync_title">Allow Sync</string>
+    <string name="pref_sync_summ">Sinhronizacija aplikacije u zadatom intervalu</string>
+    <string name="pref_syncConnectionType">Sync interval</string>
+    <string name="pref_sync_list">pref_sync_list</string>
 
 
 

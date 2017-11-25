@@ -6,6 +6,8 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
@@ -40,9 +42,13 @@ import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 public class FirstActivity extends AppCompatActivity {
 
 
-    private static int NOTIFICATION_ID = 1;
+
     private DatabaseHelper databaseHelper;
     private AlertDialog dialogAlert;
+    private SharedPreferences preferences;
+
+    public static String NOTIF_TOAST = "pref_toast";
+    public static String NOTIF_STATUS = "pref_notification";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +59,9 @@ public class FirstActivity extends AppCompatActivity {
         // aktiviranje toolbara
         Toolbar toolbar = (Toolbar) findViewById(R.id.first_toolbar);
         setSupportActionBar(toolbar);
+
+        // status podesavanja
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
         //  ZA BAZU
@@ -89,6 +98,22 @@ public class FirstActivity extends AppCompatActivity {
 
         });
 
+    }
+
+
+    // prikazivanje poruka u notification baru (status bar)
+    private void showStatusMesage(String message){
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setSmallIcon(R.drawable.ic_stat_name);
+        builder.setContentTitle("Ispit");
+        builder.setContentText(message);
+
+        // ubacio sam smajlija na kraju poruke u Notification Drawer
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), R.drawable.ic_action_smile);
+        builder.setLargeIcon(bm);
+
+        notificationManager.notify(1, builder.build());
     }
 
 
@@ -165,7 +190,21 @@ public class FirstActivity extends AppCompatActivity {
 
                         try {
                             getDatabaseHelper().getGlumacDao().create(glumac);
-                            refresh();
+
+                            //provera podesavanja (toast ili notification bar)
+                            boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
+                            boolean status = preferences.getBoolean(NOTIF_STATUS, false);
+
+                            if (toast){
+                                Toast.makeText(FirstActivity.this, "Novi glumac je dodan", Toast.LENGTH_SHORT).show();
+                            }
+
+                            if (status){
+                                showStatusMesage("Novi glumac je dodan");
+                            }
+
+                            refresh(); // osvezavanje baze
+
                         } catch (SQLException e) {
                             e.printStackTrace();
                         }
@@ -241,25 +280,6 @@ public class FirstActivity extends AppCompatActivity {
         }
     }
 
-
-    public void showMessage(String text, String newGlumac) {
-        SharedPreferences st = PreferenceManager.getDefaultSharedPreferences(FirstActivity.this);
-        String name = st.getString("message", "Toast");
-        if (name.equals("Toast")) {
-            Toast.makeText(FirstActivity.this, text + "\n" + newGlumac, Toast.LENGTH_LONG).show();
-        } else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(FirstActivity.this);
-            builder.setSmallIcon(R.drawable.ic_action_name);
-
-            builder.setContentTitle(text);
-            builder.setContentText(newGlumac);
-
-
-            // Shows notification with the notification manager (notification ID is used to update the notification later on)
-            NotificationManager manager = (NotificationManager) FirstActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);
-            manager.notify(1, builder.build());
-        }
-    }
 
 
     // kompatibilnost u nazad

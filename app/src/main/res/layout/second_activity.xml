@@ -92,12 +92,27 @@
         android:textStyle="italic" />
 
 
+    <!-- Rating Bar -->
+    <RatingBar
+        android:id="@+id/inputGLumacRatingbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputOcenaGlumac"
+        android:layout_centerHorizontal="true"
+        android:numStars="5"
+        android:progressBackgroundTint="#44444444"
+        android:progressTint="#ffd700"
+        android:scaleX=".6"
+        android:scaleY=".6"
+        android:secondaryProgressTint="#000000" />
+
+
     <!--  filmovi -->
     <TextView
         android:id="@+id/labelFilmoviGlumac"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputOcenaGlumac"
+        android:layout_below="@id/inputGLumacRatingbar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14sp"
         android:textColor="#000000"
@@ -110,8 +125,8 @@
         android:id="@+id/inputListaFilmovaGlumac"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="10sp"
         android:layout_below="@id/labelFilmoviGlumac" />
-
 
 
 </RelativeLayout>
