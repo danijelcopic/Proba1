@@ -1,19 +1,24 @@
 package rs.aleph.android.example13.activities.activity;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,6 +54,8 @@ public class FirstActivity extends AppCompatActivity {
 
     public static String NOTIF_TOAST = "pref_toast";
     public static String NOTIF_STATUS = "pref_notification";
+
+    private static final String TAG = "PERMISSIONS"; // za permission
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,8 +288,6 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
-
-    // kompatibilnost u nazad
     @Override
     public void setTitle(CharSequence title) {
         getSupportActionBar().setTitle(title);

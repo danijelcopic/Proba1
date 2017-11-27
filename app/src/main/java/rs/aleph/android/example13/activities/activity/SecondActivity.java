@@ -46,6 +46,10 @@ import rs.aleph.android.example13.activities.db.DatabaseHelper;
 import rs.aleph.android.example13.activities.db.model.Film;
 import rs.aleph.android.example13.activities.db.model.Glumac;
 
+import static android.R.attr.name;
+import static android.R.id.input;
+import static android.media.CamcorderProfile.get;
+import static rs.aleph.android.example13.R.string.ocena;
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_STATUS;
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_TOAST;
 
@@ -77,17 +81,6 @@ public class SecondActivity extends AppCompatActivity  {
             actionBar.setHomeButtonEnabled(true);
             actionBar.show();
         }
-
-
-       /// mozda potrebno za edit ????
-        if (savedInstanceState != null) {
-            glumac = new Glumac();
-            glumac.setGlumacIme(savedInstanceState.getString("ime"));
-            glumac.setGlumacBiografija(savedInstanceState.getString("biografija"));
-            glumac.setGlumacOcena(savedInstanceState.getDouble("ocena"));
-            //jos datum ????
-        }
-
 
 
         // status podesavanja
@@ -195,6 +188,7 @@ public class SecondActivity extends AppCompatActivity  {
     // prikaz menija
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        menu.clear();
         getMenuInflater().inflate(R.menu.second_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
@@ -215,7 +209,7 @@ public class SecondActivity extends AppCompatActivity  {
             // kada pritisnemo ikonicu za menjanje podataka
             case R.id.action_edit:
 
-                edit();
+                edit();  // pozivamo metodu edit()
 
                 break;
 
@@ -328,6 +322,7 @@ public class SecondActivity extends AppCompatActivity  {
     }
 
 
+
     // refresh() prikazuje novi sadrzaj.Povucemo nov sadrzaj iz baze i popunimo listu filmova
     private void refresh() {
         ListView listview = (ListView) findViewById(R.id.inputListaFilmovaGlumac);
@@ -358,25 +353,8 @@ public class SecondActivity extends AppCompatActivity  {
 
 
 
-    // mozda isto potrebno za edit ????
-    @Override
-    public void onSaveInstanceState(Bundle savedInstanceState) {
-        super.onSaveInstanceState(savedInstanceState);
 
-        if (savedInstanceState != null) {
-            savedInstanceState.putInt("id", glumac.getGlumacId());
-            savedInstanceState.putString("ime", glumac.getGlumacIme());
-            savedInstanceState.putString("biografija", glumac.getGlumacBiografija());
-            savedInstanceState.putDouble("ocena", glumac.getGlumacOcena());
-            // jos datum ?????
-
-        }
-    }
-
-
-
-
-    // pozivamo pri izmeni podataka .... treba doraditi ????? ... uvuci postojece podatke iz baze ili mozda Bundle ????
+    // pozivamo pri izmeni podataka ....
     private void edit(){
 
         final Dialog dialog = new Dialog(SecondActivity.this);
@@ -390,10 +368,25 @@ public class SecondActivity extends AppCompatActivity  {
             final EditText glumacDatumRodjenja = (EditText) dialog.findViewById(R.id.glumac_datum_rodjenja);
 
 
+            // update podataka u dialog pre edita
+            glumacIme.setText(glumac.getGlumacIme());
+            glumacBiografija.setText(glumac.getGlumacBiografija());
+
+            double ocena = glumac.getGlumacOcena();
+            String stringOcena = Double.toString(ocena);
+            glumacOcena.setText(stringOcena);
+
+            SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
+            String datum = sdf.format(glumac.getGlumacDatumRodjenja());
+            glumacDatumRodjenja.setText(datum);
+
+
+            // ok
             Button ok = (Button) dialog.findViewById(R.id.ok);
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+
 
                     String ime = glumacIme.getText().toString();
                     if (ime.isEmpty()) {
@@ -424,7 +417,7 @@ public class SecondActivity extends AppCompatActivity  {
                         return;
                     }
 
-                    Glumac glumac = new Glumac();
+
                     glumac.setGlumacIme(ime);
                     glumac.setGlumacBiografija(biografija);
                     glumac.setGlumacOcena(ocena);
@@ -432,7 +425,10 @@ public class SecondActivity extends AppCompatActivity  {
 
 
                     try {
+
                         getDatabaseHelper().getGlumacDao().update(glumac);
+
+
 
                         //provera podesavanja (toast ili notification bar)
                         boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
@@ -448,15 +444,21 @@ public class SecondActivity extends AppCompatActivity  {
 
                         refresh(); // osvezavanje baze
 
+                        finish();  // ovo sam morao da bi se vratio na prvu aktivnost i osvezio bazu novim podacima
+
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
 
                     dialog.dismiss();
 
+
+
                 }
             });
 
+
+            // cancel
             Button cancel = (Button) dialog.findViewById(R.id.cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -467,12 +469,7 @@ public class SecondActivity extends AppCompatActivity  {
 
             dialog.show();
 
-            try {
-                getDatabaseHelper().getGlumacDao().update(glumac);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            refresh();
+
         }
     }
 
