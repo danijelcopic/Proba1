@@ -14,12 +14,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/movie_name" />
+            android:text="@string/movie_name"
+            android:textSize="12dp" />
 
         <EditText
             android:id="@+id/input_movie_name"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="14dp" />
 
     </LinearLayout>
 
@@ -33,12 +35,14 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/movie_genre" />
+            android:text="@string/movie_genre"
+            android:textSize="12dp" />
 
         <EditText
             android:id="@+id/input_movie_genre"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:textSize="14dp" />
 
     </LinearLayout>
 
@@ -52,17 +56,17 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/movie_year" />
+            android:text="@string/movie_year"
+            android:textSize="12dp" />
 
         <EditText
             android:id="@+id/input_movie_year"
-            android:inputType="number"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:inputType="number"
+            android:textSize="14dp" />
 
     </LinearLayout>
-
-
 
 
     <!-- Ok i Cancel button -->
@@ -76,13 +80,15 @@
             android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ok" />
+            android:text="ok"
+            android:textSize="14dp" />
 
         <Button
             android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel" />
+            android:text="Cancel"
+            android:textSize="14dp" />
 
     </LinearLayout>
 
