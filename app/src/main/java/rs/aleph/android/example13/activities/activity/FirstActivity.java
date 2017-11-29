@@ -37,6 +37,8 @@ import rs.aleph.android.example13.activities.db.DatabaseHelper;
 import rs.aleph.android.example13.activities.db.model.Actor;
 import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 
+import static java.lang.Double.parseDouble;
+
 
 public class FirstActivity extends AppCompatActivity {
 
@@ -164,6 +166,7 @@ public class FirstActivity extends AppCompatActivity {
                 final EditText actorName = (EditText) dialog.findViewById(R.id.input_actor_name);
                 final EditText actorBiography = (EditText) dialog.findViewById(R.id.input_actor_biography);
                 final EditText actorRating = (EditText) dialog.findViewById(R.id.input_actor_rating);
+                final EditText actorRatingbar = (EditText) dialog.findViewById(R.id.input_actor_ratingbar);
                 final EditText actorBirthday = (EditText) dialog.findViewById(R.id.input_actor_birthday);
 
 
@@ -187,11 +190,23 @@ public class FirstActivity extends AppCompatActivity {
 
                         double rating = 0;
                         try {
-                            rating = Double.parseDouble(actorRating.getText().toString());
+                            rating = parseDouble(actorRating.getText().toString());
                         } catch (NumberFormatException e) {
                             Toast.makeText(FirstActivity.this, "Must be number.", Toast.LENGTH_SHORT).show();
                             return;
                         }
+
+
+                        float ratingbar = 0;
+                        try {
+                            ratingbar = Float.parseFloat(actorRatingbar.getText().toString());
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(FirstActivity.this, "Must be number [1-5].", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+
+
 
                         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
                         Date date = null;
@@ -206,6 +221,7 @@ public class FirstActivity extends AppCompatActivity {
                         actor.setmName(name);
                         actor.setmBiography(biography);
                         actor.setmRating(rating);
+                        actor.setmRatingbar(ratingbar);
                         actor.setmBirthday(date);
 
 

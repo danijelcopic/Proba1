@@ -23,6 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,7 @@ import rs.aleph.android.example13.activities.db.model.Movie;
 import rs.aleph.android.example13.activities.db.model.Actor;
 
 
+import static java.lang.Double.parseDouble;
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_STATUS;
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_TOAST;
 
@@ -100,6 +102,9 @@ public class SecondActivity extends AppCompatActivity  {
 
             double rating = actor.getmRating();
             String stringRating = Double.toString(rating);
+
+            RatingBar ratingBar = (RatingBar) findViewById(R.id.rating_bar);
+            ratingBar.setRating(actor.getmRatingbar());
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
             String date = sdf.format(actor.getmBirthday());
@@ -407,6 +412,7 @@ public class SecondActivity extends AppCompatActivity  {
             final EditText actorName = (EditText) dialog.findViewById(R.id.input_actor_name);
             final EditText actorBiography = (EditText) dialog.findViewById(R.id.input_actor_biography);
             final EditText actorRating = (EditText) dialog.findViewById(R.id.input_actor_rating);
+            final EditText actorRatingbar = (EditText) dialog.findViewById(R.id.input_actor_ratingbar);
             final EditText actorBirthday = (EditText) dialog.findViewById(R.id.input_actor_birthday);
 
 
@@ -417,6 +423,10 @@ public class SecondActivity extends AppCompatActivity  {
             double rating = actor.getmRating();
             String stringRating = Double.toString(rating);
             actorRating.setText(stringRating);
+
+            float ratingbar = actor.getmRatingbar();
+            String stringRatingbar = Float.toString(ratingbar);
+            actorRatingbar.setText(stringRatingbar);
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
             String date = sdf.format(actor.getmBirthday());
@@ -444,9 +454,18 @@ public class SecondActivity extends AppCompatActivity  {
 
                     double rating = 0;
                     try {
-                        rating = Double.parseDouble(actorRating.getText().toString());
+                        rating = parseDouble(actorRating.getText().toString());
                     } catch (NumberFormatException e) {
                         Toast.makeText(SecondActivity.this, "Must be number.", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+
+                    float ratingbar = 0;
+                    try {
+                        ratingbar = Float.parseFloat(actorRatingbar.getText().toString());
+                    } catch (NumberFormatException e) {
+                        Toast.makeText(SecondActivity.this, "Must be number [1-5].", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
@@ -463,6 +482,7 @@ public class SecondActivity extends AppCompatActivity  {
                     actor.setmName(name);
                     actor.setmBiography(biography);
                     actor.setmRating(rating);
+                    actor.setmRatingbar(ratingbar);
                     actor.setmBirthday(date);
 
 

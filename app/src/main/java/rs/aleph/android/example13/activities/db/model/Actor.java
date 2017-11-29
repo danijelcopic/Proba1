@@ -7,6 +7,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
+import static rs.aleph.android.example13.activities.db.model.Actor.FIELD_NAME_RATINGBAR;
+
 
 @DatabaseTable(tableName = Actor.TABLE_NAME_ACTOR)
 public class Actor {
@@ -16,6 +18,7 @@ public class Actor {
     public static final String FIELD_NAME_NAME = "name";
     public static final String FIELD_NAME_BIOGRAPHY = "biography";
     public static final String FIELD_NAME_RATING = "rating";
+    public static final String FIELD_NAME_RATINGBAR = "ratingbar";
     public static final String FIELD_NAME_BIRTHDAY = "birthday";
     public static final String FIELD_NAME_MOVIE = "movie";
 
@@ -28,6 +31,9 @@ public class Actor {
 
     @DatabaseField(columnName = FIELD_NAME_BIOGRAPHY)
     private String mBiography;
+
+    @DatabaseField(columnName = FIELD_NAME_RATINGBAR)
+    private float mRatingbar;
 
     @DatabaseField(columnName = FIELD_NAME_RATING)
     private double mRating;
@@ -73,6 +79,14 @@ public class Actor {
 
     public void setmRating(double mRating) {
         this.mRating = mRating;
+    }
+
+    public float getmRatingbar() {
+        return mRatingbar;
+    }
+
+    public void setmRatingbar(float mRatingbar) {
+        this.mRatingbar = mRatingbar;
     }
 
     public Date getmBirthday() {

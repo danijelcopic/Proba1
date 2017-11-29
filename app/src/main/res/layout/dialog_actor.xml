@@ -69,6 +69,30 @@
     </LinearLayout>
 
 
+
+    <!-- unos Ratingbar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/actor_ratingbar"
+            android:textSize="12dp" />
+
+        <EditText
+            android:id="@+id/input_actor_ratingbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+
+
     <!-- unos datuma rodjenja glumca -->
     <LinearLayout
         android:layout_width="match_parent"

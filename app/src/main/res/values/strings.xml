@@ -55,7 +55,9 @@
     <string name="actor_name">ACTOR NAME:</string>
     <string name="actor_biography">ACTOR BIOGRAPHY:</string>
     <string name="actor_rating">ACTOR RATING:</string>
+    <string name="actor_ratingbar">ACTOR RATING BAR [1-5]:</string>
     <string name="actor_birthday">ACTOR BIRTHDAY:</string>
+
 
 
 </resources>
