@@ -1,24 +1,18 @@
 package rs.aleph.android.example13.activities.activity;
 
-import android.Manifest;
 import android.app.Dialog;
-import android.app.ListActivity;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,12 +34,11 @@ import java.util.List;
 
 import rs.aleph.android.example13.R;
 import rs.aleph.android.example13.activities.db.DatabaseHelper;
-import rs.aleph.android.example13.activities.db.model.Glumac;
+import rs.aleph.android.example13.activities.db.model.Actor;
 import rs.aleph.android.example13.activities.dialogs.AboutDialog;
 
 
 public class FirstActivity extends AppCompatActivity {
-
 
 
     private DatabaseHelper databaseHelper;
@@ -60,20 +53,23 @@ public class FirstActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.first_activity);
+        setContentView(R.layout.activity_first);
 
         // TOOLBAR
         // aktiviranje toolbara
-        Toolbar toolbar = (Toolbar) findViewById(R.id.first_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_first);
         setSupportActionBar(toolbar);
 
         // status podesavanja
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
 
 
+
+
+
         //  ZA BAZU
         // ucitamo sve podatke iz baze u listu
-        List<Glumac> glumci = new ArrayList<Glumac>();
+        List<Actor> glumci = new ArrayList<Actor>();
         try {
             glumci = getDatabaseHelper().getGlumacDao().queryForAll();
         } catch (SQLException e) {
@@ -83,11 +79,11 @@ public class FirstActivity extends AppCompatActivity {
 
         // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
         List<String> glumciIme = new ArrayList<String>();
-        for (Glumac i : glumci) {
-            glumciIme.add(i.getGlumacIme());
+        for (Actor i : glumci) {
+            glumciIme.add(i.getmName());
         }
 
-        final ListView listView = (ListView) findViewById(R.id.listFirstActivity); // definisemo u koji View saljemo podatke (listFirstActivity)
+        final ListView listView = (ListView) findViewById(R.id.list_first_activity); // definisemo u koji View saljemo podatke (listFirstActivity)
         ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this, R.layout.list_item, glumciIme);  // definisemo kako ce izgledati jedna stavka u View (list_item)
         listView.setAdapter(adapter);
 
@@ -96,9 +92,9 @@ public class FirstActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Glumac glumac = (Glumac) listView.getItemAtPosition(position);
+                Actor actor = (Actor) listView.getItemAtPosition(position);
                 Intent intentGLumac = new Intent(FirstActivity.this, SecondActivity.class);
-                intentGLumac.putExtra("position", glumac.getGlumacId());  // saljemo intent o poziciji (id glumca)
+                intentGLumac.putExtra("position", actor.getmId());  // saljemo intent o poziciji (id glumca)
                 startActivity(intentGLumac);
 
             }
@@ -131,7 +127,7 @@ public class FirstActivity extends AppCompatActivity {
     // prikaz menija
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.first_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_first, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -146,68 +142,68 @@ public class FirstActivity extends AppCompatActivity {
 
 
                 final Dialog dialog = new Dialog(FirstActivity.this); // aktiviramo dijalog
-                dialog.setContentView(R.layout.dialog_glumac);
+                dialog.setContentView(R.layout.dialog_actor);
 
 
-                final EditText glumacIme = (EditText) dialog.findViewById(R.id.glumac_ime);
-                final EditText glumacBiografija = (EditText) dialog.findViewById(R.id.glumac_biografija);
-                final EditText glumacOcena = (EditText) dialog.findViewById(R.id.glumac_ocena);
-                final EditText glumacDatumRodjenja = (EditText) dialog.findViewById(R.id.glumac_datum_rodjenja);
+                final EditText actorName = (EditText) dialog.findViewById(R.id.input_actor_name);
+                final EditText actorBiography = (EditText) dialog.findViewById(R.id.input_actor_biography);
+                final EditText actorRating = (EditText) dialog.findViewById(R.id.input_actor_rating);
+                final EditText actorBirthday = (EditText) dialog.findViewById(R.id.input_actor_birthday);
 
-                Button ok = (Button) dialog.findViewById(R.id.ok);
+                Button ok = (Button) dialog.findViewById(R.id.btn_ok);
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        String ime = glumacIme.getText().toString();
-                        if (ime.isEmpty()) {
-                            Toast.makeText(FirstActivity.this, "Ime glumca ne sme biti prazno", Toast.LENGTH_SHORT).show();
+                        String name = actorName.getText().toString();
+                        if (name.isEmpty()) {
+                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        String biografija = glumacBiografija.getText().toString();
-                        if (biografija.isEmpty()) {
-                            Toast.makeText(FirstActivity.this, "Podaci o biografiji ne smeju biti prazni", Toast.LENGTH_SHORT).show();
+                        String biography = actorBiography.getText().toString();
+                        if (biography.isEmpty()) {
+                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        double ocena = 0;
+                        double rating = 0;
                         try {
-                            ocena = Double.parseDouble(glumacOcena.getText().toString());
+                            rating = Double.parseDouble(actorRating.getText().toString());
                         } catch (NumberFormatException e) {
-                            Toast.makeText(FirstActivity.this, "Ocena mora biti broj.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FirstActivity.this, "Must be number.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-                        Date datum = null;
+                        Date date = null;
                         try {
-                            datum = sdf.parse(glumacDatumRodjenja.getText().toString());
+                            date = sdf.parse(actorBirthday.getText().toString());
                         } catch (ParseException e) {
-                            Toast.makeText(FirstActivity.this, "Datum mora biti u formatu dd.mm.yyyy.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FirstActivity.this, "Must be entered in format: dd.mm.yyyy.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        Glumac glumac = new Glumac();
-                        glumac.setGlumacIme(ime);
-                        glumac.setGlumacBiografija(biografija);
-                        glumac.setGlumacOcena(ocena);
-                        glumac.setGlumacDatumRodjenja(datum);
+                        Actor actor = new Actor();
+                        actor.setmName(name);
+                        actor.setmBiography(biography);
+                        actor.setmRating(rating);
+                        actor.setmBirthday(date);
 
 
                         try {
-                            getDatabaseHelper().getGlumacDao().create(glumac);
+                            getDatabaseHelper().getGlumacDao().create(actor);
 
                             //provera podesavanja (toast ili notification bar)
                             boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
                             boolean status = preferences.getBoolean(NOTIF_STATUS, false);
 
                             if (toast){
-                                Toast.makeText(FirstActivity.this, "Novi glumac je dodan", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(FirstActivity.this, "New actor is added", Toast.LENGTH_SHORT).show();
                             }
 
                             if (status){
-                                showStatusMesage("Novi glumac je dodan");
+                                showStatusMesage("New actor is added");
                             }
 
                             refresh(); // osvezavanje baze
@@ -221,7 +217,7 @@ public class FirstActivity extends AppCompatActivity {
                     }
                 });
 
-                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                Button cancel = (Button) dialog.findViewById(R.id.btn_cancel);
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -233,7 +229,7 @@ public class FirstActivity extends AppCompatActivity {
 
                 break;
             case R.id.action_settings:
-                Intent preferences = new Intent(FirstActivity.this, PreferencesActivity.class);  // saljemo intent PreferancesActivity.class
+                Intent preferences = new Intent(FirstActivity.this, SettingsActivity.class);  // saljemo intent PreferancesActivity.class
                 startActivity(preferences);
                 break;
 
@@ -270,13 +266,13 @@ public class FirstActivity extends AppCompatActivity {
 
     // refresh() prikazuje novi sadrzaj.Povucemo nov sadrzaj iz baze i popunimo listu glumaca
     private void refresh() {
-        ListView listview = (ListView) findViewById(R.id.listFirstActivity);
+        ListView listview = (ListView) findViewById(R.id.list_first_activity);
         if (listview != null) {
-            ArrayAdapter<Glumac> adapter = (ArrayAdapter<Glumac>) listview.getAdapter();
+            ArrayAdapter<Actor> adapter = (ArrayAdapter<Actor>) listview.getAdapter();
             if (adapter != null) {
                 adapter.clear();
                 try {
-                    List<Glumac> list = getDatabaseHelper().getGlumacDao().queryForAll();
+                    List<Actor> list = getDatabaseHelper().getGlumacDao().queryForAll();
                     adapter.addAll(list);
                     adapter.notifyDataSetChanged();
                 } catch (SQLException e) {
@@ -300,6 +296,8 @@ public class FirstActivity extends AppCompatActivity {
         super.onResume();
         refresh();
     }
+
+
 
     @Override
     protected void onDestroy() {

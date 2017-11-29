@@ -14,11 +14,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ime glumca:"
+            android:text="@string/actor_name"
             android:textSize="12dp" />
 
         <EditText
-            android:id="@+id/glumac_ime"
+            android:id="@+id/input_actor_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14dp" />
@@ -35,11 +35,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Biografija glumca:"
+            android:text="@string/actor_biography"
             android:textSize="12dp" />
 
         <EditText
-            android:id="@+id/glumac_biografija"
+            android:id="@+id/input_actor_biography"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:textSize="14dp" />
@@ -56,11 +56,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ocena glumca:"
+            android:text="@string/actor_rating"
             android:textSize="12dp" />
 
         <EditText
-            android:id="@+id/glumac_ocena"
+            android:id="@+id/input_actor_rating"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="numberDecimal"
@@ -78,11 +78,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Datum rodjenja glumca:"
+            android:text="@string/actor_birthday"
             android:textSize="12dp" />
 
         <EditText
-            android:id="@+id/glumac_datum_rodjenja"
+            android:id="@+id/input_actor_birthday"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="date"
@@ -99,14 +99,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ok"
+            android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"
             android:text="ok" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14dp"

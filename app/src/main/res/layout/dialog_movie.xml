@@ -14,10 +14,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Naziv:" />
+            android:text="@string/movie_name" />
 
         <EditText
-            android:id="@+id/film_naziv"
+            android:id="@+id/input_movie_name"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -33,10 +33,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Zanr:" />
+            android:text="@string/movie_genre" />
 
         <EditText
-            android:id="@+id/film_zanr"
+            android:id="@+id/input_movie_genre"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
@@ -52,10 +52,10 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Godina:" />
+            android:text="@string/movie_year" />
 
         <EditText
-            android:id="@+id/film_godina"
+            android:id="@+id/input_movie_year"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
@@ -73,13 +73,13 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/ok"
+            android:id="@+id/btn_ok"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="ok" />
 
         <Button
-            android:id="@+id/cancel"
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Cancel" />

@@ -8,10 +8,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Movie;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.support.v7.widget.Toolbar;
@@ -25,8 +23,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,13 +39,10 @@ import java.util.List;
 
 import rs.aleph.android.example13.R;
 import rs.aleph.android.example13.activities.db.DatabaseHelper;
-import rs.aleph.android.example13.activities.db.model.Film;
-import rs.aleph.android.example13.activities.db.model.Glumac;
+import rs.aleph.android.example13.activities.db.model.Movie;
+import rs.aleph.android.example13.activities.db.model.Actor;
 
-import static android.R.attr.name;
-import static android.R.id.input;
-import static android.media.CamcorderProfile.get;
-import static rs.aleph.android.example13.R.string.ocena;
+
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_STATUS;
 import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF_TOAST;
 
@@ -59,18 +52,18 @@ public class SecondActivity extends AppCompatActivity  {
     private int position = 0;
 
     private DatabaseHelper databaseHelper;
-    private Glumac glumac;
+    private Actor actor;
     private SharedPreferences preferences;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.second_activity);
+        setContentView(R.layout.activity_second);
 
         // TOOLBAR
         // aktiviranje toolbara 2 koji je drugaciji od onog iz prve aktivnosti
-        Toolbar toolbar = (Toolbar) findViewById(R.id.second_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_second);
         setSupportActionBar(toolbar);
 
 
@@ -94,56 +87,60 @@ public class SecondActivity extends AppCompatActivity  {
         // na osnovu dobijene pozicije od intenta, pupunjavamo polja u drugoj aktivnosti
         try {
 
-            glumac = getDatabaseHelper().getGlumacDao().queryForId((int) position);
-            String ime = glumac.getGlumacIme();
-            String biografija = glumac.getGlumacBiografija();
-            double ocena = glumac.getGlumacOcena();
-            String stringOcena = Double.toString(ocena);
+            actor = getDatabaseHelper().getGlumacDao().queryForId((int) position);
+
+            String name = actor.getmName();
+
+            String biography = actor.getmBiography();
+
+            double rating = actor.getmRating();
+            String stringRating = Double.toString(rating);
+
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-            String datum = sdf.format(glumac.getGlumacDatumRodjenja());
+            String date = sdf.format(actor.getmBirthday());
 
             //ispisujemo ime glumca
-            TextView imeGlumac = (TextView) findViewById(R.id.imeGlumac);
-            imeGlumac.setText(ime);
+            TextView actorName = (TextView) findViewById(R.id.name);
+            actorName.setText(name);
 
             //ispisujemo  datum rodjenja glumca
-            TextView datumGlumac = (TextView) findViewById(R.id.inputDatumRodjenjaGlumac);
-            datumGlumac.setText(datum);
+            TextView actorBirthday = (TextView) findViewById(R.id.birthday);
+            actorBirthday.setText(date);
 
             //ispisujemo  biografiju glumca
-            TextView biografijaGlumac = (TextView) findViewById(R.id.inputBiografijaGlumac);
-            biografijaGlumac.setText(biografija);
+            TextView actorBiography = (TextView) findViewById(R.id.biography);
+            actorBiography.setText(biography);
 
             //ispisujemo  ocenu glumca
-            TextView ocenaGlumac = (TextView) findViewById(R.id.inputOcenaGlumac);
-            ocenaGlumac.setText(stringOcena);
+            TextView actorRating = (TextView) findViewById(R.id.rating);
+            actorRating.setText(stringRating);
 
 
             // prikazujemo listu filmova u drugoj aktivnosti
-            final ListView listView = (ListView) findViewById(R.id.inputListaFilmovaGlumac);
+            final ListView listView = (ListView) findViewById(R.id.list_movie);
 
-            List<Film> filmovi = getDatabaseHelper().getFilmDao(). // konstruisemo QueryBuilder
+            List<Movie> movies = getDatabaseHelper().getFilmDao(). // konstruisemo QueryBuilder
                     queryBuilder().
                     where().
-                    eq(Film.POLJE_GLUMAC, position).
+                    eq(Movie.FIELD_NAME_ACTOR, position).
                     query();
 
-            List<String> filmoviNazivi = new ArrayList<>();
-            for (Film f : filmovi) {
-                filmoviNazivi.add(f.getFilmNaziv());
+            List<String> moviesName = new ArrayList<>();
+            for (Movie f : movies) {
+                moviesName.add(f.getmName());
             }
-            ListAdapter adapter = new ArrayAdapter<String>(SecondActivity.this, R.layout.list_item_film, filmoviNazivi);
+            ListAdapter adapter = new ArrayAdapter<String>(SecondActivity.this, R.layout.list_item_movie, moviesName);
             listView.setAdapter(adapter);
 
 
             // sta se desi kada kliknemo na film u drugoj aktivnosti (toast sa podacima)
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Film f = (Film) listView.getItemAtPosition(position);
-                    Toast.makeText(SecondActivity.this, " FILM: " + f.getFilmNaziv() + "\n" +
-                                    " ZANR: " + f.getFilmZanr() + "\n" +
-                                    " GODINA: " + f.getFilmGodinaIzlaska() + "\n" +
-                                    " GLUMAC: " + f.getGlumac(),
+                    Movie f = (Movie) listView.getItemAtPosition(position);
+                    Toast.makeText(SecondActivity.this, " FILM: " + f.getmName() + "\n" +
+                                    " ZANR: " + f.getmGenre() + "\n" +
+                                    " GODINA: " + f.getmYear() + "\n" +
+                                    " GLUMAC: " + f.getActor(),
                             Toast.LENGTH_LONG).show();
                 }
             });
@@ -173,7 +170,7 @@ public class SecondActivity extends AppCompatActivity  {
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_stat_name);
-        builder.setContentTitle("Ispit");
+        builder.setContentTitle("Actor");
         builder.setContentText(message);
 
         // slicica u notification drawer-u
@@ -189,7 +186,7 @@ public class SecondActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.clear();
-        getMenuInflater().inflate(R.menu.second_menu, menu);
+        getMenuInflater().inflate(R.menu.menu_second, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -202,7 +199,7 @@ public class SecondActivity extends AppCompatActivity  {
             case R.id.action_picture:
 
                 showRandomImage();
-                showMessage("Evo neke slike");
+                showMessage("Show some picture");
 
                 break;
 
@@ -216,9 +213,9 @@ public class SecondActivity extends AppCompatActivity  {
             // kada pritisnemo ikonicu za brisanje
             case R.id.action_delete:
                 try {
-                    getDatabaseHelper().getGlumacDao().delete(glumac);
+                    getDatabaseHelper().getGlumacDao().delete(actor);
 
-                    showMessage("Glumac je obrisan");
+                    showMessage("Actor is deleted");
 
                     finish();
 
@@ -232,53 +229,53 @@ public class SecondActivity extends AppCompatActivity  {
             case R.id.action_add_film:
 
                 final Dialog dialog = new Dialog(SecondActivity.this);
-                dialog.setContentView(R.layout.dialog_film);
+                dialog.setContentView(R.layout.dialog_movie);
 
 
-                final EditText filmNaziv = (EditText) dialog.findViewById(R.id.film_naziv);
-                final EditText filmZanr = (EditText) dialog.findViewById(R.id.film_zanr);
-                final EditText filmGodina = (EditText) dialog.findViewById(R.id.film_godina);
+                final EditText movieName = (EditText) dialog.findViewById(R.id.input_movie_name);
+                final EditText movieGenre = (EditText) dialog.findViewById(R.id.input_movie_genre);
+                final EditText movieYear = (EditText) dialog.findViewById(R.id.input_movie_year);
 
 
-                Button ok = (Button) dialog.findViewById(R.id.ok);
+                Button ok = (Button) dialog.findViewById(R.id.btn_ok);
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
-                        String naziv = filmNaziv.getText().toString();
-                        if (naziv.isEmpty()) {
-                            Toast.makeText(SecondActivity.this, "Ime filma ne sme biti prazno", Toast.LENGTH_SHORT).show();
+                        String name = movieName.getText().toString();
+                        if (name.isEmpty()) {
+                            Toast.makeText(SecondActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        String zanr = filmZanr.getText().toString();
-                        if (zanr.isEmpty()) {
-                            Toast.makeText(SecondActivity.this, "Zanr filma ne sme biti prazan", Toast.LENGTH_SHORT).show();
+                        String genre = movieGenre.getText().toString();
+                        if (genre.isEmpty()) {
+                            Toast.makeText(SecondActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        int godina = 0;
+                        int year = 0;
                         try {
-                            godina = Integer.parseInt(filmGodina.getText().toString());
+                            year = Integer.parseInt(movieYear.getText().toString());
                         } catch (NumberFormatException e) {
-                            Toast.makeText(SecondActivity.this, "Godina mora biti broj.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SecondActivity.this, "Must be entered in format: dd.mm.yyyy.", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
 
-                        Film film = new Film();
-                        film.setFilmNaziv(naziv);
-                        film.setFilmZanr(zanr);
-                        film.setFilmGodinaIzlaska(godina);
-                        film.setGlumac(glumac);
+                        Movie movie = new Movie();
+                        movie.setmName(name);
+                        movie.setmGenre(genre);
+                        movie.setmYear(year);
+                        movie.setActor(actor);
 
 
                         try {
-                            getDatabaseHelper().getFilmDao().create(film);
+                            getDatabaseHelper().getFilmDao().create(movie);
 
                             refresh();
 
-                            showMessage("Novi film je dodan");
+                            showMessage("New movie is added");
 
                         } catch (SQLException e) {
                             e.printStackTrace();
@@ -289,7 +286,7 @@ public class SecondActivity extends AppCompatActivity  {
                     }
                 });
 
-                Button cancel = (Button) dialog.findViewById(R.id.cancel);
+                Button cancel = (Button) dialog.findViewById(R.id.btn_cancel);
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -325,23 +322,23 @@ public class SecondActivity extends AppCompatActivity  {
 
     // refresh() prikazuje novi sadrzaj.Povucemo nov sadrzaj iz baze i popunimo listu filmova
     private void refresh() {
-        ListView listview = (ListView) findViewById(R.id.inputListaFilmovaGlumac);
+        ListView listview = (ListView) findViewById(R.id.list_movie);
         if (listview != null) {
-            ArrayAdapter<Film> adapter = (ArrayAdapter<Film>) listview.getAdapter();
+            ArrayAdapter<Movie> adapter = (ArrayAdapter<Movie>) listview.getAdapter();
             if (adapter != null) {
 
                 try {
                     adapter.clear();
 
                     // konstruisemo QueryBuilder
-                    List<Film> films = getDatabaseHelper().getFilmDao()
+                    List<Movie> movies = getDatabaseHelper().getFilmDao()
                             .queryBuilder()
                             .where()
-                            .eq(Film.POLJE_GLUMAC, glumac.getGlumacId())
+                            .eq(Movie.FIELD_NAME_ACTOR, actor.getmId())
                             .query();
 
 
-                    adapter.addAll(films);
+                    adapter.addAll(movies);
                     adapter.notifyDataSetChanged();
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -358,93 +355,94 @@ public class SecondActivity extends AppCompatActivity  {
     private void edit(){
 
         final Dialog dialog = new Dialog(SecondActivity.this);
-        dialog.setContentView(R.layout.dialog_glumac_edit);
+        dialog.setContentView(R.layout.dialog_actor_edit);
 
-        if (glumac != null){
+        if (actor != null){
 
-            final EditText glumacIme = (EditText) dialog.findViewById(R.id.glumac_ime);
-            final EditText glumacBiografija = (EditText) dialog.findViewById(R.id.glumac_biografija);
-            final EditText glumacOcena = (EditText) dialog.findViewById(R.id.glumac_ocena);
-            final EditText glumacDatumRodjenja = (EditText) dialog.findViewById(R.id.glumac_datum_rodjenja);
+            final EditText actorName = (EditText) dialog.findViewById(R.id.input_actor_name);
+            final EditText actorBiography = (EditText) dialog.findViewById(R.id.input_actor_biography);
+            final EditText actorRating = (EditText) dialog.findViewById(R.id.input_actor_rating);
+            final EditText actorBirthday = (EditText) dialog.findViewById(R.id.input_actor_birthday);
 
 
             // update podataka u dialog pre edita
-            glumacIme.setText(glumac.getGlumacIme());
-            glumacBiografija.setText(glumac.getGlumacBiografija());
+            actorName.setText(actor.getmName());
+            actorBiography.setText(actor.getmBiography());
 
-            double ocena = glumac.getGlumacOcena();
-            String stringOcena = Double.toString(ocena);
-            glumacOcena.setText(stringOcena);
+            double rating = actor.getmRating();
+            String stringRating = Double.toString(rating);
+            actorRating.setText(stringRating);
 
             SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-            String datum = sdf.format(glumac.getGlumacDatumRodjenja());
-            glumacDatumRodjenja.setText(datum);
+            String date = sdf.format(actor.getmBirthday());
+            actorBirthday.setText(date);
 
 
             // ok
-            Button ok = (Button) dialog.findViewById(R.id.ok);
+            Button ok = (Button) dialog.findViewById(R.id.btn_ok);
             ok.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
 
-                    String ime = glumacIme.getText().toString();
-                    if (ime.isEmpty()) {
-                        Toast.makeText(SecondActivity.this, "Ime glumca ne sme biti prazno", Toast.LENGTH_SHORT).show();
+                    String name = actorName.getText().toString();
+                    if (name.isEmpty()) {
+                        Toast.makeText(SecondActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    String biografija = glumacBiografija.getText().toString();
-                    if (biografija.isEmpty()) {
-                        Toast.makeText(SecondActivity.this, "Podaci o biografiji ne smeju biti prazni", Toast.LENGTH_SHORT).show();
+                    String biography = actorBiography.getText().toString();
+                    if (biography.isEmpty()) {
+                        Toast.makeText(SecondActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
-                    double ocena = 0;
+                    double rating = 0;
                     try {
-                        ocena = Double.parseDouble(glumacOcena.getText().toString());
+                        rating = Double.parseDouble(actorRating.getText().toString());
                     } catch (NumberFormatException e) {
-                        Toast.makeText(SecondActivity.this, "Ocena mora biti broj.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SecondActivity.this, "Must be number.", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
                     SimpleDateFormat sdf = new SimpleDateFormat("dd.MM.yyyy.");
-                    Date datum = null;
+                    Date date = null;
                     try {
-                        datum = sdf.parse(glumacDatumRodjenja.getText().toString());
+                        date = sdf.parse(actorBirthday.getText().toString());
                     } catch (ParseException e) {
-                        Toast.makeText(SecondActivity.this, "Datum mora biti u formatu dd.mm.yyyy.", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SecondActivity.this, "Must be entered in format: dd.mm.yyyy.", Toast.LENGTH_SHORT).show();
                         return;
                     }
 
 
-                    glumac.setGlumacIme(ime);
-                    glumac.setGlumacBiografija(biografija);
-                    glumac.setGlumacOcena(ocena);
-                    glumac.setGlumacDatumRodjenja(datum);
+                    actor.setmName(name);
+                    actor.setmBiography(biography);
+                    actor.setmRating(rating);
+                    actor.setmBirthday(date);
+
 
 
                     try {
 
-                        getDatabaseHelper().getGlumacDao().update(glumac);
-
-
+                        getDatabaseHelper().getGlumacDao().update(actor);
 
                         //provera podesavanja (toast ili notification bar)
                         boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
                         boolean status = preferences.getBoolean(NOTIF_STATUS, false);
 
                         if (toast){
-                            Toast.makeText(SecondActivity.this, "Podaci o glumcu su promenjeni" , Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SecondActivity.this, "Actor is updated" , Toast.LENGTH_SHORT).show();
                         }
 
                         if (status){
-                            showStatusMesage("Podaci o glumcu su promenjeni");
+                            showStatusMesage("Actor is updated");
                         }
 
                         refresh(); // osvezavanje baze
 
-                        finish();  // ovo sam morao da bi se vratio na prvu aktivnost i osvezio bazu novim podacima
+
+
+                       finish();  // ovo sam morao da bi se vratio na prvu aktivnost i osvezio bazu novim podacima
 
                     } catch (SQLException e) {
                         e.printStackTrace();
@@ -459,7 +457,7 @@ public class SecondActivity extends AppCompatActivity  {
 
 
             // cancel
-            Button cancel = (Button) dialog.findViewById(R.id.cancel);
+            Button cancel = (Button) dialog.findViewById(R.id.btn_cancel);
             cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -472,6 +470,10 @@ public class SecondActivity extends AppCompatActivity  {
 
         }
     }
+
+
+
+
 
 
     // picasso

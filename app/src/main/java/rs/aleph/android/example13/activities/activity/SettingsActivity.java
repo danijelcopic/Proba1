@@ -6,7 +6,7 @@ import android.preference.PreferenceActivity;
 
 import rs.aleph.android.example13.R;
 
-public class PreferencesActivity extends PreferenceActivity {
+public class SettingsActivity extends PreferenceActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

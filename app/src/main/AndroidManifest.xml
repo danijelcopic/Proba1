@@ -35,7 +35,7 @@
         </activity>
 
         <activity
-            android:name="rs.aleph.android.example13.activities.activity.PreferencesActivity"
+            android:name="rs.aleph.android.example13.activities.activity.SettingsActivity"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName="rs.aleph.android.example13.activities.activity.FirstActivity"
             android:label="Preferences">

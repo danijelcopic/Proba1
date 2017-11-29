@@ -10,8 +10,8 @@ import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
-import rs.aleph.android.example13.activities.db.model.Film;
-import rs.aleph.android.example13.activities.db.model.Glumac;
+import rs.aleph.android.example13.activities.db.model.Actor;
+import rs.aleph.android.example13.activities.db.model.Movie;
 
 public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 
@@ -19,10 +19,10 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
     private static final String DATABASE_NAME    = "ormlite1.db";
 
 
-    private static final int    DATABASE_VERSION = 7;
+    private static final int    DATABASE_VERSION = 10;
 
-    private Dao<Glumac, Integer> mGlumacDao = null;
-    private Dao<Film,Integer> mFilmDao = null;
+    private Dao<Actor, Integer> mGlumacDao = null;
+    private Dao<Movie,Integer> mFilmDao = null;
 
     //Potrebno je dodati konstruktor zbog pravilne inicijalizacije biblioteke
     public DatabaseHelper(Context context) {
@@ -34,8 +34,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-            TableUtils.createTable(connectionSource, Film.class);
-            TableUtils.createTable(connectionSource, Glumac.class);
+            TableUtils.createTable(connectionSource, Movie.class);
+            TableUtils.createTable(connectionSource, Actor.class);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -45,8 +45,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVersion, int newVersion) {
         try {
-            TableUtils.dropTable(connectionSource, Glumac.class, true);
-            TableUtils.dropTable(connectionSource, Film.class,true);
+            TableUtils.dropTable(connectionSource, Actor.class, true);
+            TableUtils.dropTable(connectionSource, Movie.class,true);
             onCreate(db, connectionSource);
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -55,16 +55,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
 
     //jedan Dao objekat sa kojim komuniciramo. Ukoliko imamo vise tabela
     //potrebno je napraviti Dao objekat za svaku tabelu
-    public Dao<Glumac, Integer> getGlumacDao() throws SQLException {
+    public Dao<Actor, Integer> getGlumacDao() throws SQLException {
         if (mGlumacDao == null) {
-            mGlumacDao = getDao(Glumac.class);
+            mGlumacDao = getDao(Actor.class);
         }
 
         return mGlumacDao;
     }
-    public Dao<Film,Integer> getFilmDao() throws SQLException{
+    public Dao<Movie,Integer> getFilmDao() throws SQLException{
         if (mFilmDao == null){
-            mFilmDao = getDao(Film.class);
+            mFilmDao = getDao(Movie.class);
         }
         return mFilmDao;
     }

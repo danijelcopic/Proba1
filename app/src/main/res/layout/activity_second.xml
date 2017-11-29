@@ -13,7 +13,7 @@
 
         <!-- Standard toolbar-->
         <android.support.v7.widget.Toolbar
-            android:id="@+id/second_toolbar"
+            android:id="@+id/toolbar_second"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:title="@string/activity_first_toolbar_title"
@@ -23,9 +23,9 @@
     </android.support.design.widget.AppBarLayout>
 
 
-    <!-- ime glumca -->
+    <!-- name -->
     <TextView
-        android:id="@+id/imeGlumac"
+        android:id="@+id/name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center|bottom"
@@ -35,58 +35,58 @@
         android:textSize="20sp" />
 
 
-    <!-- input datum rodjenja glumca -->
+    <!-- birthday -->
     <TextView
-        android:id="@+id/inputDatumRodjenjaGlumac"
+        android:id="@+id/birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/imeGlumac"
+        android:layout_below="@id/name"
         android:layout_centerHorizontal="true"
         android:textSize="11sp"
         android:textStyle="italic" />
 
 
-    <!-- label biografija glumca -->
+    <!-- label biography -->
     <TextView
-        android:id="@+id/labelBiografijaGlumac"
+        android:id="@+id/label_biography"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputDatumRodjenjaGlumac"
+        android:layout_below="@id/birthday"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12sp"
         android:textColor="#000000"
-        android:text="@string/biografija"
+        android:text="@string/label_biography"
         android:textSize="12sp" />
 
-    <!-- input biografija glumac -->
+    <!-- biography -->
     <TextView
-        android:id="@+id/inputBiografijaGlumac"
+        android:id="@+id/biography"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/labelBiografijaGlumac"
+        android:layout_below="@id/label_biography"
         android:layout_centerHorizontal="true"
         android:textSize="10sp" />
 
 
-    <!-- label ocena glumca -->
+    <!-- label rating -->
     <TextView
-        android:id="@+id/labelOcenaGlumac"
+        android:id="@+id/label_rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputBiografijaGlumac"
+        android:layout_below="@id/biography"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="12sp"
-        android:text="@string/ocena"
+        android:text="@string/label_rating"
         android:textColor="#000000"
         android:textSize="12sp" />
 
 
-    <!-- ocena glumca  -->
+    <!-- rating  -->
     <TextView
-        android:id="@+id/inputOcenaGlumac"
+        android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/labelOcenaGlumac"
+        android:layout_below="@id/label_rating"
         android:layout_centerHorizontal="true"
         android:textSize="24sp"
         android:textStyle="italic" />
@@ -94,10 +94,10 @@
 
     <!-- Rating Bar -->
     <RatingBar
-        android:id="@+id/inputGLumacRatingbar"
+        android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputOcenaGlumac"
+        android:layout_below="@id/rating"
         android:layout_centerHorizontal="true"
         android:numStars="5"
         android:progressBackgroundTint="#44444444"
@@ -107,26 +107,26 @@
         android:secondaryProgressTint="#000000" />
 
 
-    <!--  filmovi -->
+    <!--  label movie -->
     <TextView
-        android:id="@+id/labelFilmoviGlumac"
+        android:id="@+id/label_movie"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputGLumacRatingbar"
+        android:layout_below="@id/rating_bar"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="14sp"
         android:textColor="#000000"
-        android:text="@string/filmovi"
+        android:text="@string/label_movie"
         android:textSize="12sp" />
 
 
-    <!-- lista filmova -->
+    <!-- movie -->
     <ListView
-        android:id="@+id/inputListaFilmovaGlumac"
+        android:id="@+id/list_movie"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10sp"
-        android:layout_below="@id/labelFilmoviGlumac" />
+        android:layout_below="@id/label_movie" />
 
 
 </RelativeLayout>
