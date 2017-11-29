@@ -50,10 +50,16 @@ public class FirstActivity extends AppCompatActivity {
 
     private static final String TAG = "PERMISSIONS"; // za permission
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first);
+
+
+
 
         // TOOLBAR
         // aktiviranje toolbara
@@ -69,33 +75,33 @@ public class FirstActivity extends AppCompatActivity {
 
         //  ZA BAZU
         // ucitamo sve podatke iz baze u listu
-        List<Actor> glumci = new ArrayList<Actor>();
+        List<Actor> actors = new ArrayList<Actor>();
         try {
-            glumci = getDatabaseHelper().getGlumacDao().queryForAll();
+            actors = getDatabaseHelper().getGlumacDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
 
         // u String izvucemo iz gornje liste imana i sa adapterom posaljemo na View
-        List<String> glumciIme = new ArrayList<String>();
-        for (Actor i : glumci) {
-            glumciIme.add(i.getmName());
+        List<String> actorNames = new ArrayList<String>();
+        for (Actor i : actors) {
+            actorNames.add(i.getmName());
         }
 
         final ListView listView = (ListView) findViewById(R.id.list_first_activity); // definisemo u koji View saljemo podatke (listFirstActivity)
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this, R.layout.list_item, glumciIme);  // definisemo kako ce izgledati jedna stavka u View (list_item)
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(FirstActivity.this, R.layout.list_item, actorNames);  // definisemo kako ce izgledati jedna stavka u View (list_item)
         listView.setAdapter(adapter);
 
 
-        // sta se desi kada kliknemo na, u ovom slucaju, ime glumca iz liste
+        // sta se desi kada kliknemo na element iz liste
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Actor actor = (Actor) listView.getItemAtPosition(position);
-                Intent intentGLumac = new Intent(FirstActivity.this, SecondActivity.class);
-                intentGLumac.putExtra("position", actor.getmId());  // saljemo intent o poziciji (id glumca)
-                startActivity(intentGLumac);
+                Intent intent = new Intent(FirstActivity.this, SecondActivity.class);
+                intent.putExtra("position", actor.getmId());  // saljemo intent o poziciji (id glumca)
+                startActivity(intent);
 
             }
 
@@ -104,12 +110,16 @@ public class FirstActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
     // prikazivanje poruka u notification baru (status bar)
     private void showStatusMesage(String message){
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         builder.setSmallIcon(R.drawable.ic_stat_name);
-        builder.setContentTitle("Ispit");
+        builder.setContentTitle("Actor");
         builder.setContentText(message);
 
         // ubacio sam smajlija na kraju poruke u Notification Drawer
@@ -118,6 +128,12 @@ public class FirstActivity extends AppCompatActivity {
 
         notificationManager.notify(1, builder.build());
     }
+
+
+
+
+
+
 
 
     /**
@@ -150,22 +166,24 @@ public class FirstActivity extends AppCompatActivity {
                 final EditText actorRating = (EditText) dialog.findViewById(R.id.input_actor_rating);
                 final EditText actorBirthday = (EditText) dialog.findViewById(R.id.input_actor_birthday);
 
+
+                // ok
                 Button ok = (Button) dialog.findViewById(R.id.btn_ok);
                 ok.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         String name = actorName.getText().toString();
-                        if (name.isEmpty()) {
-                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+//                        if (name.isEmpty()) {
+//                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
 
                         String biography = actorBiography.getText().toString();
-                        if (biography.isEmpty()) {
-                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+//                        if (biography.isEmpty()) {
+//                            Toast.makeText(FirstActivity.this, "Must be entered", Toast.LENGTH_SHORT).show();
+//                            return;
+//                        }
 
                         double rating = 0;
                         try {
@@ -217,6 +235,7 @@ public class FirstActivity extends AppCompatActivity {
                     }
                 });
 
+                // cancel
                 Button cancel = (Button) dialog.findViewById(R.id.btn_cancel);
                 cancel.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -249,6 +268,11 @@ public class FirstActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
+
 
 
     /**

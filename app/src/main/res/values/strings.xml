@@ -2,17 +2,26 @@
 <resources>
 
     <string name="app_name">Actor</string>
-    <string name="activity_first_toolbar_title">Toolbar</string>
+
+    <string name="activity_first_toolbar_title">Actor</string>
+    <string name="activity_second_toolbar_title">Actor</string>
+
+    <!-- toolbar first-->
     <string name="first_action_add">Add</string>
     <string name="first_action_settings">Settings</string>
     <string name="first_action_about">About</string>
+
+    <!-- label actor second activity-->
     <string name="label_biography">BIOGRAPHY:</string>
     <string name="label_rating">RATING</string>
     <string name="label_movie">MOVIES:</string>
+
+    <!-- toolbar second-->
     <string name="first_action_edit">Edit</string>
     <string name="first_action_delete">Delete</string>
     <string name="first_action_add_film">AddFilm</string>
 
+    <!-- dialog about-->
     <string name="dialog_about_ok">Ok</string>
     <string name="dialog_about_title">AUTHOR:</string>
     <string name="dialog_about_message">Danijel Copic</string>
@@ -37,12 +46,12 @@
     <string name="pref_syncConnectionType">Sync interval</string>
     <string name="pref_sync_list">pref_sync_list</string>
 
-
+    <!-- movie input-->
     <string name="movie_name">MOVIE NAME:</string>
     <string name="movie_genre">MOVIE GENRE:</string>
     <string name="movie_year">MOVIE YEAR:</string>
 
-
+    <!-- actor input -->
     <string name="actor_name">ACTOR NAME:</string>
     <string name="actor_biography">ACTOR BIOGRAPHY:</string>
     <string name="actor_rating">ACTOR RATING:</string>

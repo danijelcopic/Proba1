@@ -49,11 +49,16 @@ import static rs.aleph.android.example13.activities.activity.FirstActivity.NOTIF
 
 public class SecondActivity extends AppCompatActivity  {
 
+
+
     private int position = 0;
 
     private DatabaseHelper databaseHelper;
     private Actor actor;
     private SharedPreferences preferences;
+
+
+
 
 
     @Override
@@ -150,20 +155,19 @@ public class SecondActivity extends AppCompatActivity  {
         }
     }
 
-    // //provera podesavanja (toast ili notification bar) .... ovo pozivamo kada kliknemo na ikonicu u Tolbaru
-    private void showMessage(String message) {
 
-        boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
-        boolean status = preferences.getBoolean(NOTIF_STATUS, false);
 
-        if (toast) {  // ako je aktivan toast prikazi ovo
-            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
-        }
 
-        if (status) {  // ako je aktivan statusbar pozovi metodu ... i prosledi joj poruku (tekst) koji ce ispisati
-            showStatusMesage(message);
-        }
-    }
+
+
+
+
+
+    /**
+     *
+     * NOTIFICATION
+     *
+     */
 
     // prikazivanje poruka u notification baru (status bar)
     private void showStatusMesage(String message) {
@@ -181,7 +185,35 @@ public class SecondActivity extends AppCompatActivity  {
     }
 
 
-    // MENU
+    // //provera podesavanja (toast ili notification bar) .... ovo pozivamo kada kliknemo na ikonicu u Tolbaru
+    private void showMessage(String message) {
+
+        boolean toast = preferences.getBoolean(NOTIF_TOAST, false);
+        boolean status = preferences.getBoolean(NOTIF_STATUS, false);
+
+        if (toast) {  // ako je aktivan toast prikazi ovo
+            Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+        }
+
+        if (status) {  // ako je aktivan statusbar pozovi metodu ... i prosledi joj poruku (tekst) koji ce ispisati
+            showStatusMesage(message);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+    /**
+     *
+     * MENU
+     *
+     */
     // prikaz menija
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -303,6 +335,17 @@ public class SecondActivity extends AppCompatActivity  {
     }
 
 
+
+
+
+
+
+    /**
+     *
+     * BAZA
+     *
+     */
+
     //Metoda koja komunicira sa bazom podataka
     public DatabaseHelper getDatabaseHelper() {
         if (databaseHelper == null) {
@@ -351,6 +394,8 @@ public class SecondActivity extends AppCompatActivity  {
 
 
 
+
+    // EDIT
     // pozivamo pri izmeni podataka ....
     private void edit(){
 

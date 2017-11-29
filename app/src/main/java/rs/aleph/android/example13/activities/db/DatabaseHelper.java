@@ -19,7 +19,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper{
     private static final String DATABASE_NAME    = "ormlite1.db";
 
 
-    private static final int    DATABASE_VERSION = 10;
+    private static final int    DATABASE_VERSION = 11;
 
     private Dao<Actor, Integer> mGlumacDao = null;
     private Dao<Movie,Integer> mFilmDao = null;

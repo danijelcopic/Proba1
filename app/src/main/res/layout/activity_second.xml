@@ -16,7 +16,7 @@
             android:id="@+id/toolbar_second"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:title="@string/activity_first_toolbar_title"
+            android:title="@string/activity_second_toolbar_title"
             app:layout_scrollFlags="scroll|enterAlways" >
         </android.support.v7.widget.Toolbar>
 
