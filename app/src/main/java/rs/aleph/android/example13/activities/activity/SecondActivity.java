@@ -142,10 +142,10 @@ public class SecondActivity extends AppCompatActivity  {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     Movie f = (Movie) listView.getItemAtPosition(position);
-                    Toast.makeText(SecondActivity.this, " FILM: " + f.getmName() + "\n" +
-                                    " ZANR: " + f.getmGenre() + "\n" +
-                                    " GODINA: " + f.getmYear() + "\n" +
-                                    " GLUMAC: " + f.getActor(),
+                    Toast.makeText(SecondActivity.this, " MOVIE: " + f.getmName() + "\n" +
+                                    " GENRE: " + f.getmGenre() + "\n" +
+                                    " YEAR: " + f.getmYear() + "\n" +
+                                    " ACTOR: " + f.getActor(),
                             Toast.LENGTH_LONG).show();
                 }
             });
